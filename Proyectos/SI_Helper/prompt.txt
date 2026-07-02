@@ -1,0 +1,88 @@
+Quiero construir una Progressive Web App (PWA) como helper para el juego de mesa Spirit Island. La app se va a guardar desde Safari en un iPad Air 5ª generación y ejecutarse como app nativa. Stack: un solo archivo index.html con HTML + CSS + JavaScript puro, sin frameworks.
+
+REQUISITOS GENERALES
+- Optimizada para iPad Air 5ª gen en orientación horizontal, sin scroll en ninguna pantalla
+- Usar navigator.wakeLock para que la pantalla no se apague mientras la app está activa
+- Botón de reset siempre visible arriba a la derecha, con confirmación en segundo click antes de volver al inicio
+- Toda la data de adversarios viene del archivo adversary_rules.xlsx. La lista de espíritus viene de spirits_list.txt
+- El archivo adversary_rules.xlsx usa la fuente Freehand Spirit para símbolos especiales del juego. Esa fuente está en la carpeta font/. Hay que preservar y renderizar esos caracteres correctamente en la app
+- Las imágenes de adversarios están en la carpeta images/. La imagen del contador de miedo es images/fear.png
+- El programa tiene que estar íntegramente en inglés
+
+---
+
+ETAPA 1 — Selección de jugadores y randomizer de espíritus
+
+- Selector de número de jugadores (1 a 6). Guardar este número como variable global, se usa en etapas siguientes
+- Botón Randomize que asigna aleatoriamente un espíritu/aspecto por jugador y un board (A–F) a cada uno, sin repetir espíritus ni boards
+- Los espíritus y aspectos están en spirits_list.txt (68 entradas). Formato del archivo: los espíritus base aparecen solos; los aspectos aparecen como {Nombre del espíritu} – {Aspecto}. Regla: si se selecciona un aspecto de un espíritu, todos los demás aspectos de ese mismo espíritu quedan descartados
+- Mostrar el resultado en una tabla compacta, una fila por jugador: Espíritu/Aspecto | Board. Espiritu y aspecto en colores distintos.
+- El botón Randomize se puede presionar tantas veces como se quiera para regenerar
+- Botón Continuar para avanzar. No hace falta guardar qué espíritu eligió cada jugador
+
+---
+
+ETAPA 2 — Selección de adversario y nivel
+
+- Menú de selección de adversario con estas opciones (en este orden):
+  Sin Adversario, Prussia, Sweden, England, France, Russia, Habsburg – HLC, Scotland, Habsburg – HME
+- Al seleccionar un adversario, mostrar su imagen desde la carpeta images/
+- Selector de nivel (0–6). Al elegir nivel, mostrar también la dificultad correspondiente (dato en adversary_rules.xlsx)
+- "Sin Adversario" solo tiene nivel 0
+- Botón Randomize que elige adversario y nivel al azar
+- Guardar adversario y nivel como variables globales
+- Botón Continuar
+
+---
+
+ETAPA 3 — Setup
+
+Leer adversary_rules.xlsx según el adversario y nivel seleccionados y mostrar de forma estructurada y legible:
+- Adversario y nivel
+- Dificultad
+- Loss Condition
+- Escalation
+- Invader Deck
+- Fear Deck
+- Fear per Player
+- Setup / Pieces (instrucciones para armar el juego físicamente)
+- Si existe Constant Reminder: mostrarlo destacado (es una advertencia que no debe pasarse por alto durante toda la partida)
+
+Botón Continuar
+
+---
+
+ETAPA 4 — Guía de juego (pantalla principal, diseñar el layout vos)
+
+La pantalla se divide en 3 zonas. Toda la información es específica para la combinación de adversario + nivel del excel. Tiene que ser claro, legible y fácil de usar con los dedos en iPad.
+
+ZONA 1 — Cabecera
+- Adversario y nivel, Loss Condition, Escalation (incluir la bandera del adversario, están en la carpeta images)
+- Si hay Constant Reminder, mostrarlo de forma llamativa y permanente para que no pase desapercibido
+
+ZONA 2 — Contador de miedo
+- Usar images/fear.png como ícono
+- Mostrar Y / X donde:
+  X = número de jugadores × Fear per Player (del excel para este adversario/nivel)
+  Y empieza en 0, con botones + y –
+- Cuando Y llega a X: mostrar mensaje "¡Fear Card earned!" y resetear Y a 0
+- Debe haber opción para editar X manualmente (hay eventos del juego que lo modifican)
+
+ZONA 3 — Guía de fases
+- Mostrar las fases en orden, avanzar y retroceder con botones de navegación
+- Mostrar solo las fases que no estén marcadas como Disabled en el excel para ese adversario/nivel
+- Orden de fases:
+  1. Growth
+  2. Fast
+  3. Blight Card
+  4. Event
+  5. Fear
+  6. Build Eng (solo si aplica)
+  7. Ravage
+  8. Build
+  9. Pre-Explore Escalation (solo si aplica)
+  10. Explore
+  11. Post-Explore Escalation (solo si aplica)
+  12. Slow
+  13. Time Passes
+- En cada fase, mostrar la información/recordatorio correspondiente del excel
