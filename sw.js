@@ -1,4 +1,4 @@
-const CACHE = 'si-helper-v9';
+const CACHE = 'si-helper-v10';
 const ASSETS = [
   './',
   './index.html',

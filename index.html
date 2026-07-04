@@ -92,13 +92,6 @@ html, body {
   gap: 16px; padding-top: 10px; flex-shrink: 0;
 }
 #stage1 .stage-footer { justify-content: flex-end; }
-.btn-launch {
-  background: #1a2e1a; border: 2px solid #4a8c4a;
-  color: #7ec87e; border-radius: 8px;
-  padding: 10px 20px; font-size: 15px;
-  font-family: Georgia, serif; cursor: pointer;
-}
-.btn-launch:active { background: #223322; }
 .btn-back {
   background: transparent; border: 1px solid var(--border);
   color: var(--muted); border-radius: 8px;
@@ -566,7 +559,6 @@ select.diff-sel:focus { outline: none; border-color: var(--gold); }
   <div id="stage3Content"></div>
   <div class="stage-footer">
     <button class="btn-back" id="stage3BackBtn">← Back</button>
-    <button class="btn-launch" id="launchAppBtn">Launch in App ↗</button>
     <button class="btn-primary" id="stage3Btn">Start Game →</button>
   </div>
 </div>
@@ -1037,64 +1029,6 @@ function renderPlayerBtns() {
 
 const BOARD_CONFLICTS = [['A','H'],['B','E'],['D','F'],['G','C']];
 
-// ── Digital launch URL ──
-const ADVERSARY_APP_IDS = {
-  None:     null,
-  England:  'TheKingdomOfEngland',
-  Prussia:  'TheKingdomOfPrussia',
-  Sweden:   'TheKingdomOfSweden',
-  France:   'TheKingdomOfFrance',
-  Russia:   'TheEmpireOfRussia',
-  HLC:      'TheHabsburgLivestockCompany',
-  HME:      'TheHabsburgMiningExpedition',
-  Scotland: 'TheKingdomOfScotland',
-};
-const BOARD_APP_IDS = { G: 'East', H: 'West' };
-
-function spiritToAppId(name) {
-  return name.replace(/['']/g, '').replace(/-/g, ' ')
-    .split(/\s+/).map(w => w[0].toUpperCase() + w.slice(1)).join('');
-}
-
-function buildSpiritIslandParams() {
-  const params = new URLSearchParams();
-
-  if (S.spirits.length) {
-    params.set('spirits', S.spirits.map(s => spiritToAppId(s.name)).join(','));
-    params.set('boards',  S.spirits.map(s => BOARD_APP_IDS[s.board] || s.board).join(','));
-  }
-
-  const advId = ADVERSARY_APP_IDS[S.adversary];
-  if (advId) {
-    params.set('adversary', advId);
-    if (S.level > 0) params.set('adversaryLevel', S.level);
-  }
-
-  const EXP_MAP = {
-    'Branch and Claw':  'BranchAndClaw',
-    'Jagged Earth':     'JaggedEarth',
-    'Nature Incarnate': 'NatureIncarnate',
-  };
-  const exps = Object.entries(EXP_MAP)
-    .filter(([k]) => S.expansions.has(k)).map(([,v]) => v);
-  if (exps.length) params.set('useExpansions', exps.join(','));
-
-  return params.toString();
-}
-
-function buildLaunchURL() {
-  const paramStr = buildSpiritIslandParams();
-  const siURL = 'spiritisland://screen/NewGame?' + paramStr;
-  const ua = navigator.userAgent;
-
-  if (/iPad|iPhone|iPod/.test(ua)) {
-    return siURL;
-  } else if (/Macintosh/.test(ua)) {
-    return 'steam://run/1236720/?url=' + encodeURIComponent(siURL);
-  } else {
-    return 'http://play.spiritislanddigital.com/screen/NewGame?' + paramStr;
-  }
-}
 
 function getBoardPool() {
   const boards = [];
@@ -1297,7 +1231,6 @@ function randomizeAdversary() {
 function initStage3() {
   $('stage3BackBtn').addEventListener('click', () => showStage(2));
   $('stage3Btn').addEventListener('click', () => { initGameGuide(); showStage(4); });
-  $('launchAppBtn').addEventListener('click', () => { window.location.href = buildLaunchURL(); });
 }
 
 function renderSetup() {
