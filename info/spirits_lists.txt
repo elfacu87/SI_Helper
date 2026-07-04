@@ -1,68 +1,68 @@
-A Spread of Rampant Green - Base
-A Spread of Rampant Green - Regrowth
-A Spread of Rampant Green - Tangles
-Breath of Darkness Down Your Spine
-Bringer of Dreams and Nightmares - Base
-Bringer of Dreams and Nightmares - Enticing
-Bringer of Dreams and Nightmares - Violence
-Dances Up Earthquakes
-Devouring Teeth Lurk Underfoot
-Downpour Drenches the World
-Ember-Eyed Behemoth
-Eyes Watch from the Trees
-Fathomless Mud of the Swamp
-Finder of Paths Unseen
-Fractured Days Split the Sky
-Grinning Trickster Stirs Up Trouble
-Heart of the Wildfire - Base
-Heart of the Wildfire - Transforming
-Hearth-Vigil
-Keeper of the Forbidden Wilds - Base
-Keeper of the Forbidden Wilds - Spreading Hostility
-Lightning's Swift Strike - Base
-Lightning's Swift Strike - Immense
-Lightning's Swift Strike - Pandemonium
-Lightning's Swift Strike - Sparking
-Lightning's Swift Strike - Wind
-Lure of the Deep Wilderness - Base
-Lure of the Deep Wilderness - Lair
-Many Minds Move as One
-Ocean's Hungry Grasp - Base
-Ocean's Hungry Grasp - Deeps
-Relentless Gaze of the Sun
-Rising Heat of Stone and Sand
-River Surges in Sunlight - Base
-River Surges in Sunlight - Haven
-River Surges in Sunlight - Sunshine
-River Surges in Sunlight - Travel
-Serpent Slumbering Beneath the Island - Base
-Serpent Slumbering Beneath the Island - Locus
-Shadows Flicker Like Flame - Base
-Shadows Flicker Like Flame - Amorphous
-Shadows Flicker Like Flame - Dark Fire
-Shadows Flicker Like Flame - Foreboding
-Shadows Flicker Like Flame - Madness
-Shadows Flicker Like Flame - Reach
-Sharp Fangs Behind the Leaves - Base
-Sharp Fangs Behind the Leaves - Encircle
-Sharp Fangs Behind the Leaves - Unconstrained
-Shifting Memory of Ages - Base
-Shifting Memory of Ages - Intensify
-Shifting Memory of Ages - Mentor
-Shroud of Silent Mist - Base
-Shroud of Silent Mist - Stranded
-Starlight Seeks Its Form
-Stone's Unyielding Defiance
-Sun-Bright Whirlwind
-Thunderspeaker - Base
-Thunderspeaker - Tactician
-Thunderspeaker - Warrior
-Towering Roots of the Jungle
-Vengeance as a Burning Plague
-Vital Strength of the Earth - Base
-Vital Strength of the Earth - Might
-Vital Strength of the Earth - Nourishing
-Vital Strength of the Earth - Resilience
-Volcano Looming High
-Wandering Voice Keens Delirium
-Wounded Waters Bleeding
+Base - A Spread of Rampant Green - Base
+Nature Incarnate - A Spread of Rampant Green - Regrowth
+Nature Incarnate - A Spread of Rampant Green - Tangles
+Nature Incarnate - Breath of Darkness Down Your Spine
+Base - Bringer of Dreams and Nightmares - Base
+Nature Incarnate - Bringer of Dreams and Nightmares - Enticing
+Nature Incarnate - Bringer of Dreams and Nightmares - Violence
+Nature Incarnate - Dances Up Earthquakes
+Horizons - Devouring Teeth Lurk Underfoot
+Feather and Flame - Downpour Drenches the World
+Nature Incarnate - Ember-Eyed Behemoth
+Horizons - Eyes Watch from the Trees
+Horizons - Fathomless Mud of the Swamp
+Feather and Flame - Finder of Paths Unseen
+Jagged Earth - Fractured Days Split the Sky
+Jagged Earth - Grinning Trickster Stirs Up Trouble
+Feather and Flame - Heart of the Wildfire - Base
+Nature Incarnate - Heart of the Wildfire - Transforming
+Nature Incarnate - Hearth-Vigil
+Branch and Claw - Keeper of the Forbidden Wilds - Base
+Nature Incarnate - Keeper of the Forbidden Wilds - Spreading Hostility
+Base - Lightning's Swift Strike - Base
+Feather and Flame - Lightning's Swift Strike - Immense
+Jagged Earth - Lightning's Swift Strike - Pandemonium
+Nature Incarnate - Lightning's Swift Strike - Sparking
+Jagged Earth - Lightning's Swift Strike - Wind
+Jagged Earth - Lure of the Deep Wilderness - Base
+Nature Incarnate - Lure of the Deep Wilderness - Lair
+Jagged Earth - Many Minds Move as One
+Base - Ocean's Hungry Grasp - Base
+Nature Incarnate - Ocean's Hungry Grasp - Deeps
+Nature Incarnate - Relentless Gaze of the Sun
+Horizons - Rising Heat of Stone and Sand
+Base - River Surges in Sunlight - Base
+Nature Incarnate - River Surges in Sunlight - Haven
+Jagged Earth - River Surges in Sunlight - Sunshine
+Feather and Flame - River Surges in Sunlight - Travel
+Feather and Flame - Serpent Slumbering Beneath the Island - Base
+Nature Incarnate - Serpent Slumbering Beneath the Island - Locus
+Base - Shadows Flicker Like Flame - Base
+Feather and Flame - Shadows Flicker Like Flame - Amorphous
+Nature Incarnate - Shadows Flicker Like Flame - Dark Fire
+Feather and Flame - Shadows Flicker Like Flame - Foreboding
+Jagged Earth - Shadows Flicker Like Flame - Madness
+Jagged Earth - Shadows Flicker Like Flame - Reach
+Branch and Claw - Sharp Fangs Behind the Leaves - Base
+Nature Incarnate - Sharp Fangs Behind the Leaves - Encircle
+Nature Incarnate - Sharp Fangs Behind the Leaves - Unconstrained
+Jagged Earth - Shifting Memory of Ages - Base
+Nature Incarnate - Shifting Memory of Ages - Intensify
+Nature Incarnate - Shifting Memory of Ages - Mentor
+Jagged Earth - Shroud of Silent Mist - Base
+Nature Incarnate - Shroud of Silent Mist - Stranded
+Jagged Earth - Starlight Seeks Its Form
+Jagged Earth - Stone's Unyielding Defiance
+Horizons - Sun-Bright Whirlwind
+Base - Thunderspeaker - Base
+Nature Incarnate - Thunderspeaker - Tactician
+Nature Incarnate - Thunderspeaker - Warrior
+Nature Incarnate - Towering Roots of the Jungle
+Jagged Earth - Vengeance as a Burning Plague
+Base - Vital Strength of the Earth - Base
+Feather and Flame - Vital Strength of the Earth - Might
+Nature Incarnate - Vital Strength of the Earth - Nourishing
+Jagged Earth - Vital Strength of the Earth - Resilience
+Jagged Earth - Volcano Looming High
+Nature Incarnate - Wandering Voice Keens Delirium
+Nature Incarnate - Wounded Waters Bleeding
