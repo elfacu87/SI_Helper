@@ -399,7 +399,7 @@ html, body {
   align-items: center; justify-content: center;
   gap: 10px; padding: 14px 14px; background: var(--card);
 }
-#fearIcon { width: 64px; height: 64px; object-fit: contain; }
+#fearIcon { width: 90px; height: 90px; object-fit: contain; }
 #fearCount {
   display: flex; align-items: baseline; gap: 6px;
 }
@@ -1210,7 +1210,7 @@ function card(label, value) {
 // ═══════════════════════════════════════════════════════
 // STAGE 4
 // ═══════════════════════════════════════════════════════
-function addLongPress(el, cb, ms = 500) {
+function addLongPress(el, cb, ms = 600) {
   let timer = null, sx = 0, sy = 0;
   const start = e => {
     const t = e.touches ? e.touches[0] : e;
@@ -1221,15 +1221,16 @@ function addLongPress(el, cb, ms = 500) {
   const move = e => {
     if (!timer) return;
     const t = e.touches ? e.touches[0] : e;
-    if (Math.abs(t.clientX - sx) > 8 || Math.abs(t.clientY - sy) > 8) cancel();
+    if (Math.abs(t.clientX - sx) > 14 || Math.abs(t.clientY - sy) > 14) cancel();
   };
-  el.addEventListener('touchstart', start, { passive: true });
-  el.addEventListener('touchend',   cancel);
-  el.addEventListener('touchcancel',cancel);
-  el.addEventListener('touchmove',  move,   { passive: true });
-  el.addEventListener('mousedown',  start);
-  el.addEventListener('mouseup',    cancel);
-  el.addEventListener('mousemove',  move);
+  el.addEventListener('touchstart',   start,  { passive: true });
+  el.addEventListener('touchend',     cancel, { passive: true });
+  el.addEventListener('touchcancel',  cancel, { passive: true });
+  el.addEventListener('touchmove',    move,   { passive: true });
+  el.addEventListener('contextmenu',  e => e.preventDefault());
+  el.addEventListener('mousedown',    start);
+  el.addEventListener('mouseup',      cancel);
+  el.addEventListener('mousemove',    move);
 }
 
 function renderReminders() {
@@ -1253,8 +1254,25 @@ function renderReminders() {
       const id = Number(btn.dataset.id);
       S.reminders[phase.key] = (S.reminders[phase.key] || []).filter(r => r.id !== id);
       renderReminders();
+      renderPhaseListDots();
     });
   });
+}
+
+let editingPhaseKey = null;
+
+function openReminderForm(key, label) {
+  editingPhaseKey = key;
+  $('reminderFormFor').textContent = `Reminder for: ${label}`;
+  $('reminderInput').value = '';
+  $('reminderForm').classList.remove('hidden');
+  setTimeout(() => $('reminderInput').focus(), 50);
+}
+
+function closeReminderForm() {
+  $('reminderForm').classList.add('hidden');
+  editingPhaseKey = null;
+  $('reminderInput').value = '';
 }
 
 function initStage4() {
@@ -1267,22 +1285,6 @@ function initStage4() {
   $('modalCancel').addEventListener('click', closeModal);
   $('modalConfirm').addEventListener('click', confirmFearEdit);
 
-  let editingPhaseKey = null;
-
-  function openReminderForm(key, label) {
-    editingPhaseKey = key;
-    $('reminderFormFor').textContent = `Reminder for: ${label}`;
-    $('reminderInput').value = '';
-    $('reminderForm').classList.remove('hidden');
-    $('reminderInput').focus();
-  }
-
-  function closeReminderForm() {
-    $('reminderForm').classList.add('hidden');
-    editingPhaseKey = null;
-    $('reminderInput').value = '';
-  }
-
   $('reminderCancelBtn').addEventListener('click', closeReminderForm);
   $('reminderSaveBtn').addEventListener('click', () => {
     if (!editingPhaseKey) return;
@@ -1290,19 +1292,24 @@ function initStage4() {
     if (!S.reminders[editingPhaseKey]) S.reminders[editingPhaseKey] = [];
     S.reminders[editingPhaseKey].push({ id: Date.now(), text });
     renderReminders();
-    // refresh list dots without navigating
-    document.querySelectorAll('.phase-list-item').forEach(el => {
-      const idx = parseInt(el.dataset.idx);
-      const p = S.activePhases[idx];
-      const dot = el.querySelector('.reminder-dot');
-      const hasDot = !!(S.reminders[p.key] || []).length;
-      if (hasDot && !dot) {
-        const d = document.createElement('span');
-        d.className = 'reminder-dot';
-        el.appendChild(d);
-      }
-    });
+    renderPhaseListDots();
     closeReminderForm();
+  });
+}
+
+function renderPhaseListDots() {
+  document.querySelectorAll('.phase-list-item').forEach(el => {
+    const p = S.activePhases[parseInt(el.dataset.idx)];
+    if (!p) return;
+    const hasDot = !!(S.reminders[p.key] || []).length;
+    const dot = el.querySelector('.reminder-dot');
+    if (hasDot && !dot) {
+      const d = document.createElement('span');
+      d.className = 'reminder-dot';
+      el.appendChild(d);
+    } else if (!hasDot && dot) {
+      dot.remove();
+    }
   });
 }
 
