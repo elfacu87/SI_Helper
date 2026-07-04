@@ -110,6 +110,20 @@ html, body {
 #stage1 .player-row label { font-size: 15px; color: var(--muted); white-space: nowrap; }
 #randomizeSpiritsBtn { margin-left: 12px; }
 #playerBtns { display: flex; gap: 8px; }
+.board-options-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 0 8px 0; flex-shrink: 0; flex-wrap: wrap;
+}
+.board-options-row label { font-size: 13px; color: var(--muted); white-space: nowrap; }
+.opt-toggle {
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--muted); border-radius: 6px;
+  padding: 6px 14px; font-size: 13px;
+  font-family: Georgia, serif; cursor: pointer;
+}
+.opt-toggle.active {
+  border-color: var(--gold); color: var(--gold); background: #2e2210;
+}
 #playerBtns button {
   width: 44px; height: 44px; border-radius: 50%;
   border: 2px solid var(--border); background: var(--card);
@@ -141,6 +155,15 @@ html, body {
   text-align: center; color: var(--muted);
   padding: 30px; font-style: italic; font-size: 15px;
 }
+#spiritsTable .col-reroll { width: 44px; text-align: center; }
+.reroll-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--card);
+  color: var(--muted); font-size: 18px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.reroll-btn:active { background: #2e2210; color: var(--gold); border-color: var(--gold); }
 
 /* ═══════════════════════════════════════
    STAGE 2
@@ -321,6 +344,45 @@ html, body {
   border-top: 1px solid var(--border);
   background: var(--card); flex-shrink: 0; position: relative;
 }
+#reminderForm {
+  padding: 10px 16px 12px; background: var(--card);
+  border-top: 1px solid rgba(205,145,10,.35); flex-shrink: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+#reminderForm.hidden { display: none; }
+#reminderFormFor {
+  font-size: 11px; color: var(--gold); text-transform: uppercase;
+  letter-spacing: .6px; opacity: .85;
+}
+.reminder-form-row { display: flex; gap: 8px; align-items: center; }
+#reminderInput {
+  flex: 1; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); border-radius: 6px; padding: 7px 10px;
+  font-family: Georgia, serif; font-size: 13px; resize: none; height: 44px;
+}
+.reminder-form-controls { display: flex; gap: 6px; align-items: center; }
+.reminder-dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); margin-left: 5px; vertical-align: middle; flex-shrink: 0;
+}
+.phase-list-item { user-select: none; -webkit-user-select: none; }
+#reminderBar { flex-shrink: 0; }
+#reminderBar:empty { display: none; }
+.reminder-chip {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 12px 9px 14px; font-size: 13px; line-height: 1.5;
+  border-left: 4px solid var(--gold);
+  background: rgba(205, 145, 10, 0.14);
+  border-bottom: 1px solid rgba(205, 145, 10, 0.2);
+}
+.reminder-chip-text { flex: 1; color: var(--text); white-space: pre-wrap; word-break: break-word; font-style: italic; }
+.reminder-chip-text.empty { color: var(--gold); font-style: normal; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; }
+.reminder-chip-btn {
+  flex-shrink: 0; background: none; border: 1px solid rgba(205,145,10,.4);
+  color: var(--gold); border-radius: 4px; padding: 2px 7px; font-size: 13px;
+  cursor: pointer; font-family: Georgia, serif;
+}
+.reminder-chip-btn:active { background: #2e2210; }
 .phase-nav-btn {
   flex: 1; height: 52px; border-radius: 8px;
   border: 2px solid var(--gold); background: var(--surface);
@@ -335,20 +397,19 @@ html, body {
   width: 240px; flex-shrink: 0;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 12px; padding: 16px 12px; background: var(--card);
+  gap: 10px; padding: 14px 14px; background: var(--card);
 }
-#fearIcon { width: 72px; height: 72px; object-fit: contain; }
+#fearIcon { width: 64px; height: 64px; object-fit: contain; }
 #fearCount {
   display: flex; align-items: baseline; gap: 6px;
 }
 #fearY { font-size: 52px; color: var(--gold); font-weight: bold; }
 .fear-sep { font-size: 36px; color: var(--muted); }
 #fearX { font-size: 36px; color: var(--muted); }
-#fearActions { display: flex; gap: 12px; }
 .fear-btn {
-  width: 60px; height: 60px; border-radius: 12px;
+  width: 100%; height: 58px; border-radius: 10px;
   border: 2px solid var(--gold); background: var(--surface);
-  color: var(--gold); font-size: 32px; cursor: pointer;
+  color: var(--gold); font-size: 36px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   font-family: Georgia, serif;
 }
@@ -403,9 +464,23 @@ html, body {
     <div id="playerBtns"></div>
     <button class="btn-secondary" id="randomizeSpiritsBtn">Randomize</button>
   </div>
+  <div class="board-options-row">
+    <label>Expansions:</label>
+    <button class="opt-toggle active" data-exp="Base">Base</button>
+    <button class="opt-toggle active" data-exp="Branch and Claw">Branch &amp; Claw</button>
+    <button class="opt-toggle active" data-exp="Feather and Flame">Feather &amp; Flame</button>
+    <button class="opt-toggle active" data-exp="Jagged Earth">Jagged Earth</button>
+    <button class="opt-toggle active" data-exp="Nature Incarnate">Nature Incarnate</button>
+    <button class="opt-toggle active" data-exp="Horizons">Horizons</button>
+  </div>
+  <div class="board-options-row">
+    <label>Options:</label>
+    <button class="opt-toggle" id="horizonsBoards">Boards G &amp; H</button>
+    <button class="opt-toggle" id="balanceToggle">Balance Restriction</button>
+  </div>
   <div id="spiritsWrap">
     <table id="spiritsTable">
-      <thead><tr><th>#</th><th>Spirit / Aspect</th><th>Board</th></tr></thead>
+      <thead><tr><th>#</th><th>Spirit / Aspect</th><th>Board</th><th></th></tr></thead>
       <tbody id="spiritsBody"><tr><td colspan="3" class="no-spirits">Press Randomize to assign spirits</td></tr></tbody>
     </table>
   </div>
@@ -477,7 +552,18 @@ html, body {
         <div id="phaseList"></div>
         <div id="phaseMain">
           <div id="phaseLabel">Growth</div>
+          <div id="reminderBar"></div>
           <div id="phaseBody"></div>
+        </div>
+      </div>
+      <div id="reminderForm" class="hidden">
+        <div id="reminderFormFor"></div>
+        <div class="reminder-form-row">
+          <textarea id="reminderInput" placeholder="Reminder text (optional)..."></textarea>
+          <div class="reminder-form-controls">
+            <button class="btn-secondary" id="reminderCancelBtn">Cancel</button>
+            <button class="btn-primary" id="reminderSaveBtn">Add</button>
+          </div>
         </div>
       </div>
       <div id="phaseNav">
@@ -487,16 +573,14 @@ html, body {
       </div>
     </div>
     <div id="zone2">
+      <button class="fear-btn" id="fearPlus">+</button>
       <img src="images/fear.png" id="fearIcon" alt="Fear">
       <div id="fearCount">
         <span id="fearY">0</span>
         <span class="fear-sep">/</span>
         <span id="fearX">0</span>
       </div>
-      <div id="fearActions">
-        <button class="fear-btn" id="fearMinus">–</button>
-        <button class="fear-btn" id="fearPlus">+</button>
-      </div>
+      <button class="fear-btn" id="fearMinus">–</button>
       <div id="fearCardMsg" class="hidden">Fear Card Earned!</div>
       <button id="editFearMaxBtn">Edit Target</button>
     </div>
@@ -521,76 +605,93 @@ html, body {
 // DATA
 // ═══════════════════════════════════════════════════════
 
-const SPIRITS_RAW = [
-  "A Spread of Rampant Green - Base",
-  "A Spread of Rampant Green - Regrowth",
-  "A Spread of Rampant Green - Tangles",
-  "Breath of Darkness Down Your Spine",
-  "Bringer of Dreams and Nightmares - Base",
-  "Bringer of Dreams and Nightmares - Enticing",
-  "Bringer of Dreams and Nightmares - Violence",
-  "Dances Up Earthquakes",
-  "Devouring Teeth Lurk Underfoot",
-  "Downpour Drenches the World",
-  "Ember-Eyed Behemoth",
-  "Eyes Watch from the Trees",
-  "Fathomless Mud of the Swamp",
-  "Finder of Paths Unseen",
-  "Fractured Days Split the Sky",
-  "Grinning Trickster Stirs Up Trouble",
-  "Heart of the Wildfire - Base",
-  "Heart of the Wildfire - Transforming",
-  "Hearth-Vigil",
-  "Keeper of the Forbidden Wilds - Base",
-  "Keeper of the Forbidden Wilds - Spreading Hostility",
-  "Lightning's Swift Strike - Base",
-  "Lightning's Swift Strike - Immense",
-  "Lightning's Swift Strike - Pandemonium",
-  "Lightning's Swift Strike - Sparking",
-  "Lightning's Swift Strike - Wind",
-  "Lure of the Deep Wilderness - Base",
-  "Lure of the Deep Wilderness - Lair",
-  "Many Minds Move as One",
-  "Ocean's Hungry Grasp - Base",
-  "Ocean's Hungry Grasp - Deeps",
-  "Relentless Gaze of the Sun",
-  "Rising Heat of Stone and Sand",
-  "River Surges in Sunlight - Base",
-  "River Surges in Sunlight - Haven",
-  "River Surges in Sunlight - Sunshine",
-  "River Surges in Sunlight - Travel",
-  "Serpent Slumbering Beneath the Island - Base",
-  "Serpent Slumbering Beneath the Island - Locus",
-  "Shadows Flicker Like Flame - Base",
-  "Shadows Flicker Like Flame - Amorphous",
-  "Shadows Flicker Like Flame - Dark Fire",
-  "Shadows Flicker Like Flame - Foreboding",
-  "Shadows Flicker Like Flame - Madness",
-  "Shadows Flicker Like Flame - Reach",
-  "Sharp Fangs Behind the Leaves - Base",
-  "Sharp Fangs Behind the Leaves - Encircle",
-  "Sharp Fangs Behind the Leaves - Unconstrained",
-  "Shifting Memory of Ages - Base",
-  "Shifting Memory of Ages - Intensify",
-  "Shifting Memory of Ages - Mentor",
-  "Shroud of Silent Mist - Base",
-  "Shroud of Silent Mist - Stranded",
-  "Starlight Seeks Its Form",
-  "Stone's Unyielding Defiance",
-  "Sun-Bright Whirlwind",
-  "Thunderspeaker - Base",
-  "Thunderspeaker - Tactician",
-  "Thunderspeaker - Warrior",
-  "Towering Roots of the Jungle",
-  "Vengeance as a Burning Plague",
-  "Vital Strength of the Earth - Base",
-  "Vital Strength of the Earth - Might",
-  "Vital Strength of the Earth - Nourishing",
-  "Vital Strength of the Earth - Resilience",
-  "Volcano Looming High",
-  "Wandering Voice Keens Delirium",
-  "Wounded Waters Bleeding"
+const SPIRITS_DATA = [
+  {ex:'Base',              name:"A Spread of Rampant Green",               aspect:null},
+  {ex:'Nature Incarnate',  name:"A Spread of Rampant Green",               aspect:'Regrowth'},
+  {ex:'Nature Incarnate',  name:"A Spread of Rampant Green",               aspect:'Tangles'},
+  {ex:'Nature Incarnate',  name:"Breath of Darkness Down Your Spine",      aspect:null},
+  {ex:'Base',              name:"Bringer of Dreams and Nightmares",         aspect:null},
+  {ex:'Nature Incarnate',  name:"Bringer of Dreams and Nightmares",         aspect:'Enticing'},
+  {ex:'Nature Incarnate',  name:"Bringer of Dreams and Nightmares",         aspect:'Violence'},
+  {ex:'Nature Incarnate',  name:"Dances Up Earthquakes",                    aspect:null},
+  {ex:'Horizons',          name:"Devouring Teeth Lurk Underfoot",           aspect:null},
+  {ex:'Feather and Flame', name:"Downpour Drenches the World",              aspect:null},
+  {ex:'Nature Incarnate',  name:"Ember-Eyed Behemoth",                      aspect:null},
+  {ex:'Horizons',          name:"Eyes Watch from the Trees",                aspect:null},
+  {ex:'Horizons',          name:"Fathomless Mud of the Swamp",              aspect:null},
+  {ex:'Feather and Flame', name:"Finder of Paths Unseen",                   aspect:null},
+  {ex:'Jagged Earth',      name:"Fractured Days Split the Sky",             aspect:null},
+  {ex:'Jagged Earth',      name:"Grinning Trickster Stirs Up Trouble",      aspect:null},
+  {ex:'Feather and Flame', name:"Heart of the Wildfire",                    aspect:null},
+  {ex:'Nature Incarnate',  name:"Heart of the Wildfire",                    aspect:'Transforming'},
+  {ex:'Nature Incarnate',  name:"Hearth-Vigil",                             aspect:null},
+  {ex:'Branch and Claw',   name:"Keeper of the Forbidden Wilds",            aspect:null},
+  {ex:'Nature Incarnate',  name:"Keeper of the Forbidden Wilds",            aspect:'Spreading Hostility'},
+  {ex:'Base',              name:"Lightning's Swift Strike",                  aspect:null},
+  {ex:'Feather and Flame', name:"Lightning's Swift Strike",                  aspect:'Immense'},
+  {ex:'Jagged Earth',      name:"Lightning's Swift Strike",                  aspect:'Pandemonium'},
+  {ex:'Nature Incarnate',  name:"Lightning's Swift Strike",                  aspect:'Sparking'},
+  {ex:'Jagged Earth',      name:"Lightning's Swift Strike",                  aspect:'Wind'},
+  {ex:'Jagged Earth',      name:"Lure of the Deep Wilderness",               aspect:null},
+  {ex:'Nature Incarnate',  name:"Lure of the Deep Wilderness",               aspect:'Lair'},
+  {ex:'Jagged Earth',      name:"Many Minds Move as One",                    aspect:null},
+  {ex:'Base',              name:"Ocean's Hungry Grasp",                      aspect:null},
+  {ex:'Nature Incarnate',  name:"Ocean's Hungry Grasp",                      aspect:'Deeps'},
+  {ex:'Nature Incarnate',  name:"Relentless Gaze of the Sun",                aspect:null},
+  {ex:'Horizons',          name:"Rising Heat of Stone and Sand",             aspect:null},
+  {ex:'Base',              name:"River Surges in Sunlight",                  aspect:null},
+  {ex:'Nature Incarnate',  name:"River Surges in Sunlight",                  aspect:'Haven'},
+  {ex:'Jagged Earth',      name:"River Surges in Sunlight",                  aspect:'Sunshine'},
+  {ex:'Feather and Flame', name:"River Surges in Sunlight",                  aspect:'Travel'},
+  {ex:'Feather and Flame', name:"Serpent Slumbering Beneath the Island",     aspect:null},
+  {ex:'Nature Incarnate',  name:"Serpent Slumbering Beneath the Island",     aspect:'Locus'},
+  {ex:'Base',              name:"Shadows Flicker Like Flame",                aspect:null},
+  {ex:'Feather and Flame', name:"Shadows Flicker Like Flame",                aspect:'Amorphous'},
+  {ex:'Nature Incarnate',  name:"Shadows Flicker Like Flame",                aspect:'Dark Fire'},
+  {ex:'Feather and Flame', name:"Shadows Flicker Like Flame",                aspect:'Foreboding'},
+  {ex:'Jagged Earth',      name:"Shadows Flicker Like Flame",                aspect:'Madness'},
+  {ex:'Jagged Earth',      name:"Shadows Flicker Like Flame",                aspect:'Reach'},
+  {ex:'Branch and Claw',   name:"Sharp Fangs Behind the Leaves",             aspect:null},
+  {ex:'Nature Incarnate',  name:"Sharp Fangs Behind the Leaves",             aspect:'Encircle'},
+  {ex:'Nature Incarnate',  name:"Sharp Fangs Behind the Leaves",             aspect:'Unconstrained'},
+  {ex:'Jagged Earth',      name:"Shifting Memory of Ages",                   aspect:null},
+  {ex:'Nature Incarnate',  name:"Shifting Memory of Ages",                   aspect:'Intensify'},
+  {ex:'Nature Incarnate',  name:"Shifting Memory of Ages",                   aspect:'Mentor'},
+  {ex:'Jagged Earth',      name:"Shroud of Silent Mist",                     aspect:null},
+  {ex:'Nature Incarnate',  name:"Shroud of Silent Mist",                     aspect:'Stranded'},
+  {ex:'Jagged Earth',      name:"Starlight Seeks Its Form",                  aspect:null},
+  {ex:'Jagged Earth',      name:"Stone's Unyielding Defiance",               aspect:null},
+  {ex:'Horizons',          name:"Sun-Bright Whirlwind",                      aspect:null},
+  {ex:'Base',              name:"Thunderspeaker",                            aspect:null},
+  {ex:'Nature Incarnate',  name:"Thunderspeaker",                            aspect:'Tactician'},
+  {ex:'Nature Incarnate',  name:"Thunderspeaker",                            aspect:'Warrior'},
+  {ex:'Nature Incarnate',  name:"Towering Roots of the Jungle",              aspect:null},
+  {ex:'Jagged Earth',      name:"Vengeance as a Burning Plague",             aspect:null},
+  {ex:'Base',              name:"Vital Strength of the Earth",               aspect:null},
+  {ex:'Feather and Flame', name:"Vital Strength of the Earth",               aspect:'Might'},
+  {ex:'Nature Incarnate',  name:"Vital Strength of the Earth",               aspect:'Nourishing'},
+  {ex:'Jagged Earth',      name:"Vital Strength of the Earth",               aspect:'Resilience'},
+  {ex:'Jagged Earth',      name:"Volcano Looming High",                      aspect:null},
+  {ex:'Nature Incarnate',  name:"Wandering Voice Keens Delirium",            aspect:null},
+  {ex:'Nature Incarnate',  name:"Wounded Waters Bleeding",                   aspect:null},
 ];
+
+// Home expansion: the expansion that introduced each spirit's base version
+const SPIRIT_HOME_EXP = {};
+for (const s of SPIRITS_DATA) {
+  if (s.aspect === null && !(s.name in SPIRIT_HOME_EXP)) {
+    SPIRIT_HOME_EXP[s.name] = s.ex;
+  }
+}
+
+const EXPANSION_BOARDS = {
+  'Base':             ['A','B','C','D'],
+  'Branch and Claw':  [],
+  'Feather and Flame':[],
+  'Jagged Earth':     ['E','F'],
+  'Nature Incarnate': [],
+  'Horizons':         ['G','H'],
+};
 
 const PHASE_ORDER = [
   { key: 'growth',                label: 'Growth' },
@@ -708,6 +809,8 @@ const ADVERSARY_LEVELS = {
 // ═══════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════
+const ALL_EXPANSIONS = ['Base','Branch and Claw','Feather and Flame','Jagged Earth','Nature Incarnate','Horizons'];
+
 const S = {
   players: 2,
   spirits: [],
@@ -717,6 +820,10 @@ const S = {
   fearMax: 0,
   phaseIdx: 0,
   activePhases: [],
+  expansions: new Set(ALL_EXPANSIONS),
+  includeHorizonsBoards: false,
+  balanceBoards: false,
+  reminders: {},
   resetClicks: 0,
   resetTimer: null,
   wakeLock: null
@@ -731,12 +838,6 @@ function shuffle(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
-}
-
-function parseSpirit(raw) {
-  const idx = raw.indexOf(' - ');
-  if (idx === -1) return { name: raw, aspect: null };
-  return { name: raw.slice(0, idx), aspect: raw.slice(idx + 3) };
 }
 
 function fmtText(text) {
@@ -827,6 +928,13 @@ function doReset() {
   S.fearMax = 0;
   S.phaseIdx = 0;
   S.activePhases = [];
+  S.expansions = new Set(ALL_EXPANSIONS);
+  S.includeHorizonsBoards = false;
+  S.balanceBoards = false;
+  S.reminders = {};
+  document.querySelectorAll('[data-exp]').forEach(btn => btn.classList.add('active'));
+  $('horizonsBoards').classList.remove('active');
+  $('balanceToggle').classList.remove('active');
   renderPlayerBtns();
   renderSpiritsTable();
   showStage(1);
@@ -839,6 +947,26 @@ function initStage1() {
   renderPlayerBtns();
   $('randomizeSpiritsBtn').addEventListener('click', randomizeSpirits);
   $('stage1Btn').addEventListener('click', () => { showStage(2); updateStage2(); });
+  document.querySelectorAll('[data-exp]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const exp = btn.dataset.exp;
+      if (S.expansions.has(exp)) {
+        S.expansions.delete(exp);
+        btn.classList.remove('active');
+      } else {
+        S.expansions.add(exp);
+        btn.classList.add('active');
+      }
+    });
+  });
+  $('horizonsBoards').addEventListener('click', () => {
+    S.includeHorizonsBoards = !S.includeHorizonsBoards;
+    $('horizonsBoards').classList.toggle('active', S.includeHorizonsBoards);
+  });
+  $('balanceToggle').addEventListener('click', () => {
+    S.balanceBoards = !S.balanceBoards;
+    $('balanceToggle').classList.toggle('active', S.balanceBoards);
+  });
 }
 
 function renderPlayerBtns() {
@@ -858,26 +986,89 @@ function renderPlayerBtns() {
   }
 }
 
+const BOARD_CONFLICTS = [['A','H'],['B','E'],['D','F'],['G','C']];
+
+function getBoardPool() {
+  const boards = [];
+  if (S.expansions.has('Base')) boards.push('A','B','C','D');
+  if (S.expansions.has('Jagged Earth')) boards.push('E','F');
+  if (S.includeHorizonsBoards) boards.push('G','H');
+  return boards;
+}
+
+function getActiveSpirits() {
+  return SPIRITS_DATA.filter(s => {
+    if (!S.expansions.has(s.ex)) return false;
+    if (s.aspect !== null) {
+      const home = SPIRIT_HOME_EXP[s.name];
+      if (home && !S.expansions.has(home)) return false;
+    }
+    return true;
+  });
+}
+
+function hasConflict(boards) {
+  return BOARD_CONFLICTS.some(([x, y]) => boards.includes(x) && boards.includes(y));
+}
+
+function pickBoards(n) {
+  const pool = getBoardPool();
+  if (!S.balanceBoards || S.players > 4) {
+    return shuffle([...pool]).slice(0, n);
+  }
+  for (let i = 0; i < 300; i++) {
+    const candidate = shuffle([...pool]).slice(0, n);
+    if (!hasConflict(candidate)) return candidate;
+  }
+  return shuffle([...pool]).slice(0, n);
+}
+
+function pickOneBoard(excludeSet) {
+  const pool = getBoardPool();
+  const available = pool.filter(b => !excludeSet.has(b));
+  if (!S.balanceBoards || S.players > 4) {
+    return available[Math.floor(Math.random() * available.length)];
+  }
+  const otherBoards = [...excludeSet];
+  const safe = available.filter(b => !BOARD_CONFLICTS.some(([x, y]) => {
+    if (b === x) return otherBoards.includes(y);
+    if (b === y) return otherBoards.includes(x);
+    return false;
+  }));
+  const choices = safe.length > 0 ? safe : available;
+  return choices[Math.floor(Math.random() * choices.length)];
+}
+
 function randomizeSpirits() {
-  const parsed = SPIRITS_RAW.map(parseSpirit);
-  shuffle(parsed);
+  const pool = shuffle(getActiveSpirits());
   const usedNames = new Set();
   const picked = [];
-  for (const p of parsed) {
+  for (const s of pool) {
     if (picked.length >= S.players) break;
-    if (usedNames.has(p.name)) continue;
-    usedNames.add(p.name);
-    picked.push(p);
+    if (usedNames.has(s.name)) continue;
+    usedNames.add(s.name);
+    picked.push(s);
   }
-  const boards = shuffle(['A','B','C','D','E','F']).slice(0, S.players);
-  S.spirits = picked.map((p, i) => ({ ...p, board: boards[i] }));
+  const boards = pickBoards(S.players);
+  S.spirits = picked.map((s, i) => ({ ...s, board: boards[i] }));
+  renderSpiritsTable();
+}
+
+function rerollSpirit(idx) {
+  const pool = shuffle(getActiveSpirits());
+  const usedNames = new Set(S.spirits.filter((_, i) => i !== idx).map(s => s.name));
+  const usedBoards = new Set(S.spirits.filter((_, i) => i !== idx).map(s => s.board));
+  const newSpirit = pool.find(s => !usedNames.has(s.name));
+  if (!newSpirit) return;
+  const newBoard = pickOneBoard(usedBoards);
+  S.spirits[idx] = { ...newSpirit, board: newBoard };
   renderSpiritsTable();
 }
 
 function renderSpiritsTable() {
   const tbody = $('spiritsBody');
   if (!S.spirits.length) {
-    tbody.innerHTML = '<tr><td colspan="3" class="no-spirits">Press Randomize to assign spirits</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" class="no-spirits">Press Randomize to assign spirits</td></tr>';
     return;
   }
   tbody.innerHTML = S.spirits.map((s, i) => {
@@ -887,8 +1078,12 @@ function renderSpiritsTable() {
       <td class="col-num">${i + 1}</td>
       <td>${spiritHtml}</td>
       <td class="col-board">${s.board}</td>
+      <td class="col-reroll"><button class="reroll-btn" data-idx="${i}">↻</button></td>
     </tr>`;
   }).join('');
+  tbody.querySelectorAll('.reroll-btn').forEach(btn => {
+    btn.addEventListener('click', () => rerollSpirit(parseInt(btn.dataset.idx)));
+  });
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1015,6 +1210,53 @@ function card(label, value) {
 // ═══════════════════════════════════════════════════════
 // STAGE 4
 // ═══════════════════════════════════════════════════════
+function addLongPress(el, cb, ms = 500) {
+  let timer = null, sx = 0, sy = 0;
+  const start = e => {
+    const t = e.touches ? e.touches[0] : e;
+    sx = t.clientX; sy = t.clientY;
+    timer = setTimeout(() => { timer = null; cb(); }, ms);
+  };
+  const cancel = () => { if (timer) { clearTimeout(timer); timer = null; } };
+  const move = e => {
+    if (!timer) return;
+    const t = e.touches ? e.touches[0] : e;
+    if (Math.abs(t.clientX - sx) > 8 || Math.abs(t.clientY - sy) > 8) cancel();
+  };
+  el.addEventListener('touchstart', start, { passive: true });
+  el.addEventListener('touchend',   cancel);
+  el.addEventListener('touchcancel',cancel);
+  el.addEventListener('touchmove',  move,   { passive: true });
+  el.addEventListener('mousedown',  start);
+  el.addEventListener('mouseup',    cancel);
+  el.addEventListener('mousemove',  move);
+}
+
+function renderReminders() {
+  const phase = S.activePhases[S.phaseIdx];
+  const bar = $('reminderBar');
+  if (!phase) { bar.innerHTML = ''; return; }
+  const list = S.reminders[phase.key] || [];
+  if (!list.length) { bar.innerHTML = ''; return; }
+  bar.innerHTML = list.map(r => {
+    const hasText = r.text && r.text.trim();
+    const txt = hasText
+      ? r.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')
+      : null;
+    return `<div class="reminder-chip">
+      <div class="reminder-chip-text${hasText ? '' : ' empty'}">${txt || '⚑ Reminder'}</div>
+      <button class="reminder-chip-btn" data-id="${r.id}">×</button>
+    </div>`;
+  }).join('');
+  bar.querySelectorAll('.reminder-chip-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = Number(btn.dataset.id);
+      S.reminders[phase.key] = (S.reminders[phase.key] || []).filter(r => r.id !== id);
+      renderReminders();
+    });
+  });
+}
+
 function initStage4() {
   $('fearMinus').addEventListener('click', () => changeFear(-1));
   $('fearPlus').addEventListener('click', () => changeFear(+1));
@@ -1024,6 +1266,44 @@ function initStage4() {
   $('editFearMaxBtn').addEventListener('click', openFearModal);
   $('modalCancel').addEventListener('click', closeModal);
   $('modalConfirm').addEventListener('click', confirmFearEdit);
+
+  let editingPhaseKey = null;
+
+  function openReminderForm(key, label) {
+    editingPhaseKey = key;
+    $('reminderFormFor').textContent = `Reminder for: ${label}`;
+    $('reminderInput').value = '';
+    $('reminderForm').classList.remove('hidden');
+    $('reminderInput').focus();
+  }
+
+  function closeReminderForm() {
+    $('reminderForm').classList.add('hidden');
+    editingPhaseKey = null;
+    $('reminderInput').value = '';
+  }
+
+  $('reminderCancelBtn').addEventListener('click', closeReminderForm);
+  $('reminderSaveBtn').addEventListener('click', () => {
+    if (!editingPhaseKey) return;
+    const text = $('reminderInput').value;
+    if (!S.reminders[editingPhaseKey]) S.reminders[editingPhaseKey] = [];
+    S.reminders[editingPhaseKey].push({ id: Date.now(), text });
+    renderReminders();
+    // refresh list dots without navigating
+    document.querySelectorAll('.phase-list-item').forEach(el => {
+      const idx = parseInt(el.dataset.idx);
+      const p = S.activePhases[idx];
+      const dot = el.querySelector('.reminder-dot');
+      const hasDot = !!(S.reminders[p.key] || []).length;
+      if (hasDot && !dot) {
+        const d = document.createElement('span');
+        d.className = 'reminder-dot';
+        el.appendChild(d);
+      }
+    });
+    closeReminderForm();
+  });
 }
 
 function initGameGuide() {
@@ -1126,17 +1406,27 @@ function renderPhase() {
   }
 
   const list = $('phaseList');
-  list.innerHTML = S.activePhases.map((p, i) =>
-    `<div class="phase-list-item${i === S.phaseIdx ? ' active' : ''}" data-idx="${i}">${p.label}</div>`
-  ).join('');
+  list.innerHTML = S.activePhases.map((p, i) => {
+    const dot = (S.reminders[p.key] || []).length ? '<span class="reminder-dot"></span>' : '';
+    return `<div class="phase-list-item${i === S.phaseIdx ? ' active' : ''}" data-idx="${i}">${p.label}${dot}</div>`;
+  }).join('');
   list.querySelectorAll('.phase-list-item').forEach(el => {
+    let longFired = false;
+    addLongPress(el, () => {
+      longFired = true;
+      const idx = parseInt(el.dataset.idx);
+      const p = S.activePhases[idx];
+      openReminderForm(p.key, p.label);
+    });
     el.addEventListener('click', () => {
+      if (longFired) { longFired = false; return; }
       S.phaseIdx = parseInt(el.dataset.idx);
       renderPhase();
     });
   });
   const activeItem = list.querySelector('.phase-list-item.active');
   if (activeItem) activeItem.scrollIntoView({ block: 'nearest' });
+  renderReminders();
 }
 </script>
 </body>
